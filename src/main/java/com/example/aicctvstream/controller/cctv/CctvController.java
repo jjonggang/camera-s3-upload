@@ -28,7 +28,7 @@ public class CctvController {
     public String streamUpload(@RequestParam("file") MultipartFile file) throws Exception{
         ImageFileResponseDto imageFileResponseDto = awsS3Service.upload2(file, "stream");
         webSocketHandler.sendMessageToAll(new TextMessage(imageFileResponseDto.getFileUrl()));
-//        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.MILLISECONDS.sleep(100);
 //        awsS3Service.deleteFile(imageFileResponseDto.getFileName());
         log.info("삭제완료");
         return imageFileResponseDto.getFileUrl();
