@@ -1,5 +1,6 @@
 package com.example.aicctvstream.config;
 
+import com.example.aicctvstream.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +14,7 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -28,16 +29,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests() // /와 /auth/** 경로는 인증 안해도 됨
-                .antMatchers("/no-login/**","/api/v1/no-login/**","/", "/api/v1/**").permitAll()
+                .antMatchers("/auth/** ,/no-login/**","/api/v1/no-login/**","/", "/api/v1/**").permitAll()
                 .anyRequest() // /와 /auth/** 이외의 모든 경로는 인증 해야됨.
                 .authenticated();
         //filter 등록
         //매 요청마다
         //CorsFilter 실행한 후에
         //jwtAuthenticationFilter 실행한다.
-//        http.addFilterAfter(
-//                jwtAuthenticationFilter,
-//                CorsFilter.class
-//        );
+        http.addFilterAfter(
+                jwtAuthenticationFilter,
+                CorsFilter.class
+        );
     }
 }
