@@ -18,7 +18,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/stream").setAllowedOrigins("*");
+        registry.addHandler(webSocketHandler, "/cctv/stream").setAllowedOrigins("*");
     }
 
 }
